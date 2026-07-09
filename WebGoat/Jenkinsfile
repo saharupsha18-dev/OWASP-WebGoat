@@ -32,7 +32,9 @@ pipeline {
 
         stage('Semgrep Scan') {
             steps {
+              dir('WebGoat') {
                 sh '/var/jenkins_home/semgrep-venv/bin/semgrep ci'
+              }
             }
         }
     }
