@@ -8,16 +8,13 @@ pipeline {
 
       //  SEMGREP_TIMEOUT = "300"
     }
-    stages {
-      stage('Semgrep-Scan') {
+     stages {
+        stage('Semgrep-Scan') {
           steps {
             sh 'pip3 install semgrep'
             sh 'semgrep ci'
           }
-      }
-    }
-    stages {
-
+        }
         stage('Checkout') {
             steps {
                 checkout scm
