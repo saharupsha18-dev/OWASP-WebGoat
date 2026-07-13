@@ -11,7 +11,7 @@ pipeline {
      stages {
         stage('Semgrep-Scan') {
           steps {
-             sh 'semgrep ci'
+             sh '/var/jenkins_home/semgrep-venv/bin/semgrep ci'
           }
         }
         stage('Checkout') {
