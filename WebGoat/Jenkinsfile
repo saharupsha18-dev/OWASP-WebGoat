@@ -8,29 +8,38 @@ pipeline {
 
       //  SEMGREP_TIMEOUT = "300"
     }
-     stages {
-        stage('Semgrep-Scan') {
-          steps {
-             sh '/var/jenkins_home/semgrep-venv/bin/semgrep ci'
-          }
-        }
+    stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
-        stage('Build') {
-            steps {
-                sh './mvnw clean install'
-            }
-        }
-
+        stage('GitLeaks Scan') {
+          steps {
+            sh '''
+                docker run --rm \
+                -v "$WORKSPACE/WebGoat:/repo" \
+                zricethezav/gitleaks:latest \
+                detect \
+                --source /repo \
+                --no-git \
+                --report-format json \
+                --report-path /repo/reports/gitleaks-report.json || true
+            '''
+           }
+          }
         stage('Semgrep Scan') {
             steps {
               dir('WebGoat') {
                 sh '/var/jenkins_home/semgrep-venv/bin/semgrep ci'
               }
+            }
+        }
+        stage('Build') {
+            steps {
+                dir('WebGoat') {
+                   sh './mvnw clean install'
+                }
             }
         }
     }
