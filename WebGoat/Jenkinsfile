@@ -12,30 +12,21 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-                sh '''
-                    echo "WORKSPACE=$WORKSPACE"
-            
-                    echo "Current directory:"
-                    pwd
-            
-                    echo ""
-            
-                    echo "Workspace contents:"
-                    ls -la "$WORKSPACE"
-            
-                    echo ""
-            
-                    echo "WebGoat folder contents:"
-                    ls -la "$WORKSPACE/WebGoat"
-                '''
             }
         }
         stage('GitLeaks Scan') {
             steps {
-                sh '''
-                    docker run --rm \
-                    zricethezav/gitleaks:latest version
-                '''
+                dir('WebGoat') {
+                    sh '''
+                    mkdir -p reports
+        
+                    gitleaks detect \
+                      --source . \
+                      --no-git \
+                      --report-format json \
+                      --report-path reports/gitleaks-report.json
+                    '''
+                }
             }
         }
         stage('Semgrep Scan') {
