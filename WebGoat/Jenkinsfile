@@ -31,14 +31,13 @@ pipeline {
             }
         }
        stage('GitLeaks Scan') {
-            steps {
-                sh '''
-                docker run --rm \
-                -v "$WORKSPACE/WebGoat:/repo" \
-                zricethezav/gitleaks:latest \
-                ls -la /repo
-                '''
-            }
+        steps {
+            sh '''
+            docker run --rm \
+            -v "$WORKSPACE/WebGoat:/repo" \
+            zricethezav/gitleaks:latest version
+            '''
+        }
        }
         stage('Semgrep Scan') {
             steps {
