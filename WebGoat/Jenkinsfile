@@ -24,7 +24,7 @@ pipeline {
                 --source /repo \
                 --no-git \
                 --report-format json \
-                --report-path /repo/reports/gitleaks-report.json || true
+                --report-path /repo/reports/gitleaks-report1.json || true
             '''
            }
           }
