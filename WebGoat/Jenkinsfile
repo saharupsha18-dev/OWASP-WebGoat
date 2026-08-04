@@ -12,6 +12,22 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
+                sh '''
+                    echo "WORKSPACE=$WORKSPACE"
+            
+                    echo "Current directory:"
+                    pwd
+            
+                    echo ""
+            
+                    echo "Workspace contents:"
+                    ls -la "$WORKSPACE"
+            
+                    echo ""
+            
+                    echo "WebGoat folder contents:"
+                    ls -la "$WORKSPACE/WebGoat"
+                '''
             }
         }
         stage('GitLeaks Scan') {
