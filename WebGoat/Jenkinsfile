@@ -38,7 +38,6 @@ pipeline {
                 zricethezav/gitleaks:latest \
                 detect \
                 --source /repo \
-                --no-git \
                 --report-format json \
                 --report-path /repo/gitleaks-report1.json || true
             '''
