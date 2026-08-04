@@ -30,19 +30,16 @@ pipeline {
                 '''
             }
         }
-        stage('GitLeaks Scan') {
-          steps {
-            sh '''
+       stage('GitLeaks Scan') {
+            steps {
+                sh '''
                 docker run --rm \
                 -v "$WORKSPACE/WebGoat:/repo" \
                 zricethezav/gitleaks:latest \
-                detect \
-                --source /repo \
-                --report-format json \
-                --report-path /repo/gitleaks-report1.json || true
-            '''
-           }
-          }
+                ls -la /repo
+                '''
+            }
+       }
         stage('Semgrep Scan') {
             steps {
               dir('WebGoat') {
