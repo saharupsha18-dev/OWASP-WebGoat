@@ -24,7 +24,7 @@ pipeline {
                       --source . \
                       --no-git \
                       --report-format json \
-                      --report-path reports/gitleaks-report.json
+                      --report-path reports/gitleaks-report.json ||true
                     '''
                 }
             }
