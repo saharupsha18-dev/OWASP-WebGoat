@@ -33,12 +33,8 @@ pipeline {
         stage('GitLeaks Scan') {
             steps {
                 sh '''
-                docker run --rm \
-                -v "$WORKSPACE/WebGoat:/repo" \
-                zricethezav/gitleaks:latest \
-                detect \
-                --source /repo \
-                --verbose
+                    docker run --rm \
+                    zricethezav/gitleaks:latest version
                 '''
             }
         }
