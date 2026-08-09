@@ -57,6 +57,7 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'WebGoat/reports/gitleaks-report.json'
+            archiveArtifacts artifacts: 'WebGoat/reports/checkov-report.json'
         }
     }
 }
