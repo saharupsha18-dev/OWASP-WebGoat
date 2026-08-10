@@ -57,6 +57,15 @@ pipeline {
     }   
     post {
         always {
+            sh '''
+            echo "===== Checking reports before archive ====="
+            pwd
+            ls -lh WebGoat/reports/
+            echo "===== Checking Checkov file ====="
+            test -f WebGoat/reports/checkov-report.json
+            echo "Checkov report exists"
+            '''
+    
             archiveArtifacts artifacts: 'WebGoat/reports/gitleaks-report.json'
             archiveArtifacts artifacts: 'WebGoat/reports/checkov-report.json'
         }
