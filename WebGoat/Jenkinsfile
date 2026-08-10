@@ -33,10 +33,8 @@ pipeline {
             steps {
                 dir('WebGoat') {
                     sh '''
-                      /var/jenkins_home/checkov-venv/bin/checkov -d terraform
+                      /var/jenkins_home/checkov-venv/bin/checkov -d terraform \
                       --output json --output-file-path reports/checkov-report.json || true
-                      echo "Reports created:"
-                      ls -lh reports/
                     '''
                     }
              }
