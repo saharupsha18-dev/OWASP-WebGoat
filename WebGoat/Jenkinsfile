@@ -33,7 +33,7 @@ pipeline {
             steps {
                 dir('WebGoat') {
                     sh '''
-                        mkdir -p reports && /var/jenkins_home/checkov-venv/bin/checkov -d terraform --output json > reports/checkov_report.json
+                        mkdir -p reports && /var/jenkins_home/checkov-venv/bin/checkov -d terraform --output json > reports/checkov-report.json
                     '''
                     }
              }
