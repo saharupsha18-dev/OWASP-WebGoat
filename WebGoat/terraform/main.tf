@@ -39,3 +39,11 @@ resource "aws_s3_bucket_acl" "demo_acl" {
   bucket = aws_s3_bucket.demo_bucket.id
   acl    = "private"
 }
+
+resource "aws_s3_bucket_versioning" "demo_versioning" {
+  bucket = aws_s3_bucket.demo_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
