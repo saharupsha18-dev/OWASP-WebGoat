@@ -13,6 +13,14 @@ provider "aws" {
 
 resource "aws_s3_bucket" "demo_bucket" {
   bucket = "my-insecure-demo-bucket"
+
+  target_bucket= aws_s3_bucket.demo_bucket.id
+  target_prefix="log/"
+
+}
+
+resource "aws_s3_bucket" "log_bucket" {
+  bucket = "my-demo-bucket-access-logs"
 }
 
 resource "aws_s3_bucket_public_access_block" "demo_block" {
