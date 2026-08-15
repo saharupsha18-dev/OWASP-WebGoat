@@ -14,6 +14,15 @@ provider "aws" {
 resource "aws_s3_bucket" "demo_bucket" {
   bucket = "my-insecure-demo-bucket"
 }
+
+resource "aws_s3_bucket_ownership_controls" "demo_ownership" {
+  bucket = aws_s3_bucket.demo_bucket.id
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
 resource "aws_s3_bucket_public_access_block" "demo_block" {
   bucket = aws_s3_bucket.demo_bucket.id
 
