@@ -47,3 +47,11 @@ resource "aws_s3_bucket_versioning" "demo_versioning" {
     status = "Enabled"
   }
 }
+
+resource "aws_s3_bucket_versioning" "log_versioning" {
+  bucket = aws_s3_bucket.log_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
