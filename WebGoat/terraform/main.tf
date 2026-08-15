@@ -31,7 +31,3 @@ resource "aws_s3_bucket_public_access_block" "demo_block" {
   block_public_policy     = true
   restrict_public_buckets = true
 }
-resource "aws_s3_bucket_acl" "demo_acl" {
-  bucket = aws_s3_bucket.demo_bucket.id
-  acl    = "private"
-}
