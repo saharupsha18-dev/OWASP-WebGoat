@@ -54,21 +54,20 @@ pipeline {
         }
 
         stage('Build') {
+            environment {
+                JAVA_HOME = '/opt/java/openjdk-25'
+                PATH = "/opt/java/openjdk-25/bin:${env.PATH}"
+            }
             steps {
                 dir('WebGoat') {
-                    withEnv([
-                        'JAVA_HOME=/opt/java/openjdk-25',
-                        'PATH+JAVA25=/opt/java/openjdk-25/bin'
-                    ]) {
-                        sh '''
-                            echo "Checking Java version..."
-                            java -version
-                            javac -version
+                    sh '''
+                        echo "Checking Java version..."
+                        java -version
+                        javac -version
 
-                            echo "Starting Maven build..."
-                            ./mvnw clean install
-                        '''
-                    }
+                        echo "Starting Maven build..."
+                        ./mvnw clean install
+                    '''
                 }
             }
         }
