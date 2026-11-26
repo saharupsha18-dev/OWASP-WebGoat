@@ -100,7 +100,7 @@
     <waittimeForServerStart>60</waittimeForServerStart>
     <webdriver.version>6.3.4</webdriver.version>
     <webgoat.context>/WebGoat</webgoat.context>
-    <webgoat.port>8080</webgoat.port>
+    <webgoat.port>8082</webgoat.port>
     <webgoat.sslenabled>false</webgoat.sslenabled>
     <!-- Spring Boot 4 resolves version-less webjars URLs via webjars-locator-lite -->
     <webjars-locator-lite.version>1.1.3</webjars-locator-lite.version>
