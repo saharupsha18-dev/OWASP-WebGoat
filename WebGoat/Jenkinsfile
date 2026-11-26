@@ -1,66 +1,84 @@
+
 pipeline {
     agent any
-  environment {
-    // SEMGREP_BASELINE_REF = ""
 
+    environment {
         SEMGREP_APP_TOKEN = credentials('SEMGREP_APP_TOKEN')
         SEMGREP_PR_ID = "${env.CHANGE_ID}"
-
-      //  SEMGREP_TIMEOUT = "300"
     }
+
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
+
         stage('GitLeaks Scan') {
             steps {
                 dir('WebGoat') {
                     sh '''
-                    mkdir -p reports
-        
-                    gitleaks detect \
-                      --source . \
-                      --no-git \
-                      --report-format json \
-                      --report-path reports/gitleaks-report.json ||true
+                        mkdir -p reports
+
+                        gitleaks detect \
+                          --source . \
+                          --no-git \
+                          --report-format json \
+                          --report-path reports/gitleaks-report.json || true
                     '''
                 }
             }
         }
+
         stage('Checkov Scan') {
             steps {
                 dir('WebGoat') {
                     sh '''
-                        mkdir -p reports && /var/jenkins_home/checkov-venv/bin/checkov -d terraform --output json > reports/checkov-report.json ||true
+                        mkdir -p reports
+
+                        /var/jenkins_home/checkov-venv/bin/checkov \
+                          -d terraform \
+                          --output json \
+                          > reports/checkov-report.json || true
                     '''
-                    }
-             }
-             post {
-                always {
-                    archiveArtifacts artifacts: 'WebGoat/reports/checkov-report.json'
                 }
-             }
-        }
-        stage('Semgrep Scan') {
-            steps {
-              dir('WebGoat') {
-                sh '/var/jenkins_home/semgrep-venv/bin/semgrep ci'
-              }
             }
         }
+
+        stage('Semgrep Scan') {
+            steps {
+                dir('WebGoat') {
+                    sh '/var/jenkins_home/semgrep-venv/bin/semgrep ci'
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 dir('WebGoat') {
-                   sh './mvnw clean install'
+                    sh './mvnw clean install'
                 }
             }
         }
-    }   
+    }
+
     post {
         always {
-            archiveArtifacts artifacts: 'WebGoat/reports/gitleaks-report.json'
+            script {
+                if (fileExists('WebGoat/reports/gitleaks-report.json')) {
+                    archiveArtifacts(
+                        artifacts: 'WebGoat/reports/gitleaks-report.json',
+                        allowEmptyArchive: true
+                    )
+                }
+
+                if (fileExists('WebGoat/reports/checkov-report.json')) {
+                    archiveArtifacts(
+                        artifacts: 'WebGoat/reports/checkov-report.json',
+                        allowEmptyArchive: true
+                    )
+                }
+            }
         }
     }
 }
