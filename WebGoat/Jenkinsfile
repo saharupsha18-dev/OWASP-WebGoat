@@ -36,7 +36,7 @@ pipeline {
                     sh '''
                         mkdir -p reports
 
-                        /var/jenkins_home/checkov-venv/bin/checkov \
+                        /opt/checkov-venv/bin/checkov \
                           -d terraform \
                           --output json \
                           > reports/checkov-report.json || true
@@ -46,11 +46,9 @@ pipeline {
         }
 
         stage('Semgrep Scan') {
-            steps {
-                dir('WebGoat') {
-                    sh '/var/jenkins_home/semgrep-venv/bin/semgrep ci'
-                }
-            }
+    	  steps {
+            sh '/opt/semgrep-venv/bin/semgrep ci --subdir WebGoat'
+          }
         }
 
         stage('Build') {
