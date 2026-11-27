@@ -61,6 +61,7 @@
   </issueManagement>
 
   <properties>
+    <skipSurefireTests>false</skipSurefireTests>
     <!-- Shared properties with plugins and version numbers across submodules-->
     <asciidoctorj.version>3.0.1</asciidoctorj.version>
     <bootstrap.version>5.3.5</bootstrap.version>
@@ -460,8 +461,7 @@
       <url>https://repo.maven.apache.org/maven2</url>
     </pluginRepository>
   </pluginRepositories>
-
-  <build>
+    <build>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
@@ -470,7 +470,7 @@
           <excludeDevtools>true</excludeDevtools>
           <executable>true</executable>
           <mainClass>org.owasp.webgoat.server.StartWebGoat</mainClass>
-          <!-- See http://docs.spring.io/spring-boot/docs/current/reference/html/howto-build.html#howto-extract-specific-libraries-when-an-executable-jar-runs -->
+          <!-- See http://docs.spring.io/spring-boot/docs/current/reference/html/howto-extract-specific-libraries-when-an-executable-jar-runs -->
           <requiresUnpack>
             <dependency>
               <groupId>org.asciidoctor</groupId>
@@ -543,6 +543,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
+          <skipTests>${skipSurefireTests}</skipTests>
           <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
           <!-- Necessary for vulnerable components lesson -->
           <argLine>--enable-native-access=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens
@@ -685,8 +686,7 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
+    <profiles>
     <profile>
       <!-- run with: mvn clean -Pcleanall
            Removes the runtime data directories (HSQLDB database + uploaded
