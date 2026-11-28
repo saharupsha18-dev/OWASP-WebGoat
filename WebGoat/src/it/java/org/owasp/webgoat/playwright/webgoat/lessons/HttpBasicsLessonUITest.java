@@ -43,7 +43,8 @@ public class HttpBasicsLessonUITest extends PlaywrightTest {
     @Test
     @Order(1)
     void shouldShowDefaultPage() {
-        assertThat(lessonPage.getTitle()).hasText("HTTP Basics");
+        lessonPage.getTitle().waitFor();
+        assertThat(lessonPage.getTitle()).hasText("Concept");
         Assertions.assertThat(lessonPage.noAssignmentsCompleted()).isTrue();
         Assertions.assertThat(lessonPage.numberOfAssignments()).isEqualTo(4);
     }

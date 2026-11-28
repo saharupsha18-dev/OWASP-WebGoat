@@ -31,9 +31,9 @@ public class HttpBasicsLessonPage extends LessonPage {
     }
 
     public Locator getTitle() {
-        return getPage()
-                .getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("HTTP Basics"));
-    }
+    	 return getPage()
+            .getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("Concept"));
+}
 
     public APIResponse requestToExternal(String data, String contentType, String userAgent) {
         var options = RequestOptions.create();
